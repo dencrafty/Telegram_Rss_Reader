@@ -1,0 +1,16 @@
+<resources>
+    <string name="telegram">telegram</string>
+    <string name="app_name">FeedParser</string>
+    <string name="feed_number">feed number in telegram: #</string>
+    <string name="start">Смотреть посты</string>
+    <string name="channel_id">id канала 👉</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_host">HostActivity</string>
+    <string name="description">Free open source читалка telegram без метрик, аналитики, джава скриптов, затирает фингерпринт.\nЧитает и кеширует канал, без авторизации.\n\nТолько текстовая информация.</string>
+    <string name="commercial_detected">Probably commercial post detected</string>
+    <string name="deleted_detected">The author probably deleted the post</string>
+    <string name="post_without_message">The post without text message</string>
+    <string name="check_internet">Проверьте интернет соединение</string>
+    <string name="invalid_channel_id">Такого канала не существует, либо он ограничен внутренними правилами telegram</string>
+    <string name="ok">Понятно</string>
+</resources>
