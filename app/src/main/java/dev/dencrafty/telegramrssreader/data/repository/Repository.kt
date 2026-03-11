@@ -1,14 +1,22 @@
 package dev.dencrafty.telegramrssreader.data.repository
 
+import android.util.Log
 import dev.dencrafty.telegramrssreader.data.source.DataSource
 import dev.dencrafty.telegramrssreader.data.model.RssChannel
 import dev.dencrafty.telegramrssreader.data.model.RssFeed
 import dev.dencrafty.telegramrssreader.data.paging.PAGE_SIZE
+import dev.dencrafty.telegramrssreader.di.IoDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class Repository @Inject constructor(
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val dataSource: DataSource
 ) : IRepository {
 
@@ -31,13 +39,19 @@ class Repository @Inject constructor(
         channelSize: Int,
         nextPageNumber: Int
     ): List<RssFeed> {
-        val list = mutableListOf<RssFeed>()
-        val startRange = channelSize - PAGE_SIZE * (nextPageNumber - 1)
-        val endRange = channelSize - PAGE_SIZE * nextPageNumber + 1
-        for (i in startRange downTo endRange) {
-            val feed = singleFeed(channelId, i)
-            list.add(feed)
+        val deferred = mutableListOf<Deferred<RssFeed>>()
+        withContext(ioDispatcher) {
+            val startRange = channelSize - PAGE_SIZE * (nextPageNumber - 1)
+            val endRange = channelSize - PAGE_SIZE * nextPageNumber + 1
+            for (i in startRange downTo endRange) {
+                val def = async {
+                    singleFeed(channelId, i)
+                }
+                deferred.add(def)
+            }
         }
+        // deffered await all сохраняет порядок коллекции, даже при асинхронных запросах
+        val list = deferred.awaitAll()
         return list
     }
 }
