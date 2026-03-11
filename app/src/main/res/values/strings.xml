@@ -1,5 +1,5 @@
 <resources>
-    <string name="telegram">telegram</string>
+    <string name="example_link">androiddeveu</string>
     <string name="app_name">FeedParser</string>
     <string name="feed_number">feed number in telegram: #</string>
     <string name="start">Смотреть посты</string>

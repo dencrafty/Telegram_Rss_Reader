@@ -36,7 +36,7 @@
         android:autofillHints="name"
         android:ems="10"
         android:inputType="text"
-        android:text="@string/telegram"
+        android:text="@string/example_link"
         app:layout_constraintBottom_toTopOf="@+id/start"
         app:layout_constraintStart_toEndOf="@+id/textView" />
 
