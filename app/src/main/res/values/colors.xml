@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="faint_black">#CACACA</color>
+    <color name="primary">#6599FE</color>
+    <color name="primary_variant">#199BB8</color>
 </resources>
