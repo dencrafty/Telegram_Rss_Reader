@@ -1,6 +1,6 @@
 package dev.dencrafty.telegramrssreader.data.repository
 
-import dev.dencrafty.telegramrssreader.data.DataSource
+import dev.dencrafty.telegramrssreader.data.source.DataSource
 import dev.dencrafty.telegramrssreader.data.model.RssChannel
 import dev.dencrafty.telegramrssreader.data.model.RssFeed
 import dev.dencrafty.telegramrssreader.data.paging.PAGE_SIZE
@@ -14,8 +14,8 @@ class Repository @Inject constructor(
 
     override suspend fun channelInfo(channelId: String): RssChannel {
         val size = dataSource.fetchChannelSize(channelId)
-        val description = dataSource.fetchChannelDescription(channelId)
-        return RssChannel(channelId, size, description)
+//        val description = dataSource.fetchChannelDescription(channelId)
+        return RssChannel(channelId, size)
     }
 
     override suspend fun singleFeed(channelId: String, feedId: Int): RssFeed {

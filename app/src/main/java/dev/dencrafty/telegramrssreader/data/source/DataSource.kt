@@ -1,4 +1,4 @@
-package dev.dencrafty.telegramrssreader.data
+package dev.dencrafty.telegramrssreader.data.source
 
 import dev.dencrafty.telegramrssreader.data.model.RssFeed
 import dev.dencrafty.telegramrssreader.di.IoDispatcher
@@ -27,10 +27,9 @@ const val DESCRIPTION_META = "meta[property=og:description]"
 @Singleton
 class DataSource @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) {
+) : IDataSource {
 
-    // Узнаю общее количество выпущенных постов на канале с начала основания. Посты в тг нумеруются от 1 до N.
-    suspend fun fetchChannelSize(channelId: String) : Int {
+    override suspend fun fetchChannelSize(channelId: String) : Int {
         val channelSize : Int
         withContext(ioDispatcher) {
             val document: Document = Jsoup.connect("$BASE_URL$channelId").get()
@@ -45,7 +44,7 @@ class DataSource @Inject constructor(
         return channelSize
     }
 
-    suspend fun fetchFeed(channelId: String, feedId: Int): RssFeed {
+    override suspend fun fetchFeed(channelId: String, feedId: Int): RssFeed {
         val message: String
         withContext(ioDispatcher) {
             val document: Document = Jsoup.connect("$LOCAL_URL$channelId/$feedId").get()
@@ -54,7 +53,7 @@ class DataSource @Inject constructor(
         return RssFeed(feedId, message)
     }
 
-    suspend fun fetchChannelDescription(channelId: String) : String {
+    private suspend fun fetchChannelDescription(channelId: String) : String {
         val channelDescription : String
         withContext(ioDispatcher) {
             val document: Document = Jsoup.connect("$LOCAL_URL$channelId").get()
